@@ -36,8 +36,6 @@ class App extends Component {
   handleBlur(event) {
     let players = this.state.players;
     players.push(event.target.value);
-    //make sure array is unique - lodash unique method
-    //players: _.uniq(players) in line 42
     console.log(players);
     this.setState({ players });
   }
@@ -48,16 +46,18 @@ class App extends Component {
     this.handleBlur = this.handleBlur.bind(this);
 
     return (
-        <form className="gameboard__wrapper" onSubmit={this.handleSubmit}>
-          <header className="gameboard__header">
-            <h1>Pool Game Tracker</h1>
-          </header>
-          <div className="addplayer__wrapper"/>
+      <main className="gameboard">
+        <header className="gameboard__header">
+          <h1>Pool Game Tracker</h1>
+        </header>
 
-          <div className="gameboard--left">
-            <div className="player__name--field">
+        <div className="addplayer__wrapper">
+          <form onSubmit={this.handleSubmit}>
+            <h2>Add Player</h2>
+            <div className="input__wrapper">
               <input
                 type="text"
+                className="player-name__input"
                 name="playerOneName"
                 placeholder="Player One Name"
                 onChange={this.handleChange}
@@ -65,39 +65,50 @@ class App extends Component {
                 value={this.state.playerOneName}
               />
             </div>
-          </div>
-          <div className="gameboard--right">
-            <div className="player__name--field">
-              <input
-                type="text"
-                name="playerTwoName"
-                placeholder="Player Two Name"
-                onChange={this.handleChange}
-                onBlur={this.handleBlur}
-                value={this.state.playerTwoName}
-              />
-            </div>
-            <div className="gameboard__winner">
-              <select name="winner"
-                onChange={this.handleChange}>
-                <option value="">
-                  Winner Winner Chicken Dinner
-                </option>
-                {this.state.players.map(player => <option>{player}</option>)}
-              </select>
-            </div>
             <div className="winner--btn">
-              <button><p>submit</p></button>
+              <button><p>Add Player</p></button>
             </div>
-          </div>
-          <div className="leaderboard__wrapper">
+          </form>
+        </div>
+
+        <div className="tile winner">
+          <form onSubmit={this.handleSubmit}>
+            <select name="winner"
+              onChange={this.handleChange}>
+              <option value="">
+                Select Winner
+              </option>
+              {this.state.players.map(player => <option>{player}</option>)}
+            </select>
+          </form>
+        </div>
+
+        <div className="tile loser">
+          <form onSubmit={this.handleSubmit}>
+            <select name="loser"
+              onChange={this.handleChange}>
+              <option value="">
+                Select Loser
+              </option>
+              {this.state.players.map(player => <option>{player}</option>)}
+            </select>
+          </form>
+        </div>
+
+        <div className="submit__wrapper">
+          <button><p>Submit Game</p></button>
+        </div>
+
+        <div className="leaderboard__wrapper">
+          <div className="leaderboard">
             <ul>
               <li>Hey there</li>
               <li>Ho there</li>
               <li>Hi there</li>
             </ul>
           </div>
-        </form>
+        </div>
+      </main>
     );
   }
 }

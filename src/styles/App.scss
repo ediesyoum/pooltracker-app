@@ -8,11 +8,12 @@
   ::-webkit-scrollbar-thumb {
     background-color: rgb(239, 246, 236);
     cursor: pointer;
+    border-radius: 4px;
     overflow-y: visible;
     width: 6px;
   }
   ::-webkit-scrollbar-track {
-    background: #36383e;
+    background: $gameboardbg;
     width: 5px;
   }
 }
@@ -20,8 +21,9 @@ body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
-  background-color: #333333;
+  background-color: $gameboardbg;
   font-family: sans-serif;
+
   h1 {
     font-size: 2em;
     color: #FFFFFF;
@@ -46,55 +48,89 @@ body {
   }
 }
 
-.gameboard__wrapper {
+.gameboard {
   display: grid;
   height: 100%;
   grid-template-columns: repeat(1, 50%);
-  width: 100%;
+  width: 100vw;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
+  position: relative;
+  .tile {
+    height: 45vh;
+    position: relative;
+    width: 48vw;
+    display: grid;
+    border-radius: 4px;
+    margin: 10px;
+    align-items: center;
+    justify-content: center;
+  }
 }
 .gameboard__header {
-  width: 100vw;
-  height: 10vh;
-  background-color: #333333;
+  height: 15vh;
   color: white;
   grid-column: 1;
   position: relative;
-  padding-left: 10vw;
+  padding-left: 6vw;
   font-size: 1em;
-  display: flex;
   align-items: center;
+  display: grid;
   z-index: 2;
 }
-.addplayer__wrapper {
-  width: 100vw;
+.addplayer__wrapper, .submit__wrapper {
   height: 20vh;
-  grid-column: 1;
-  background-color: #148761;
+  grid-column: 1 / span 2;
+  font-size: 1.2em;
+  border-radius: 4px;
+  color: white;
+  background-color: $addplayerbg;
+  margin: 10px;
   position: relative;
-}
+  display: grid;
+  align-items: center;
+  justify-content: center;
 
-.gameboard--left {
-  background-color: rgb(75, 17, 133);
-  height: 60vh;
-  grid-column: 1/2;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  .input__wrapper {
+    position: relative;
+    display: block;
+  }
+
+  .player-name__input {
+    position: relative;
+    top: 10px;
+    display: block;
+  }
 }
-.gameboard--right {
-  background-color: rgb(91, 121, 83);
-  height: 60vh;
-  display: flex;
-  grid-column: 2;
-  position: relative;
-  align-items: center;
-  justify-content: center;
+.winner {
+  background-color: $winnerbg;
+  grid-column: 1/2;
+}
+.loser {
+  background-color: $loserbg;
+  grid-column: 2/2;
+}
+.submit__wrapper {
+  background-color: rgb(78, 15, 134);
 }
 .leaderboard__wrapper {
+  padding-top: 10vh;
   width: 100vw;
   height: 100vh;
+  align-items: center;
+  justify-content: center;
+  display: grid;
   grid-column: 1;
-  background-color: #333333;
   position: relative;
+}
+.leaderboard {
+  position: relative;
+  width: 80vw;
+  min-height: 60vh;
+  border-radius: 10px;
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  background-color: $leaderboardbg;
 }
