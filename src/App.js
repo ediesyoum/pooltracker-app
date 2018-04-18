@@ -48,11 +48,12 @@ class App extends Component {
     this.handleBlur = this.handleBlur.bind(this);
 
     return (
-      <div className="scrollbar">
-        <header className="gameboard__header">
-          <h1>Pool Game Tracker</h1>
-        </header>
         <form className="gameboard__wrapper" onSubmit={this.handleSubmit}>
+          <header className="gameboard__header">
+            <h1>Pool Game Tracker</h1>
+          </header>
+          <div className="addplayer__wrapper"/>
+
           <div className="gameboard--left">
             <div className="player__name--field">
               <input
@@ -77,7 +78,8 @@ class App extends Component {
               />
             </div>
             <div className="gameboard__winner">
-              <select name="winner" onChange={this.handleChange}>
+              <select name="winner"
+                onChange={this.handleChange}>
                 <option value="">
                   Winner Winner Chicken Dinner
                 </option>
@@ -88,8 +90,14 @@ class App extends Component {
               <button><p>submit</p></button>
             </div>
           </div>
+          <div className="leaderboard__wrapper">
+            <ul>
+              <li>Hey there</li>
+              <li>Ho there</li>
+              <li>Hi there</li>
+            </ul>
+          </div>
         </form>
-      </div>
     );
   }
 }
