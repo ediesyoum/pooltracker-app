@@ -1,19 +1,32 @@
 import React, { Component } from 'react';
 import '../styles/css/index.css';
-import Leaderboard from '../containers/LeaderBoard';
 import firebase from '../utils/firebase';
+import { groupBy, map, sortBy, reverse } from 'lodash';
 
 class App extends Component {
   componentDidMount() {
     const playersRef = firebase.database().ref('players');
-    const players = playersRef.once('value').then(function(snapshot) {
-      console.log(snapshot.val());
+    const gamesRef = firebase.database().ref('games');
+
+    playersRef.once('value').then((snapshot) => {
+      const players = map(snapshot.val(), (attributes) => attributes.player);
+      this.setState({ players });
+    });
+
+    gamesRef.once('value').then((snapshot) => {
+      const gamesGroupedByWinner = groupBy(snapshot.val(), 'winner');
+      const players = map(gamesGroupedByWinner, (games, winner) => {
+          return { name: winner, games: games.length }
+      });
+      const winners = reverse(sortBy(players, player => player.games));
+      this.setState({ winners });
     });
   }
   state = {
     playerName: '',
     players: [],
     winner: '',
+    winners: [],
     loser: ''
   }
   handleChange(e) {
@@ -25,7 +38,6 @@ class App extends Component {
     e.preventDefault();
     this.setState({
       playerName: '',
-      players: [],
       winner: '',
       loser: ''
     });
@@ -41,26 +53,19 @@ class App extends Component {
   }
   handleSubmitPlayer(e) {
     const playersRef = firebase.database().ref('players');
+    const { players, playerName } = this.state
     const player = {
-      player: this.state.playerName
+      player: playerName
     }
     playersRef.push(player);
+    players.push(playerName); //local state player array
     this.handleClearForm(e);
+    this.setState({ players }); //maintain array
   }
-  handleBlur(event) {
-    let players = this.state.players;
-    players.push(event.target.value); //local push
-    //make sure array is unique - lodash unique method
-    //players: _.uniq(players) in line 42
-    console.log(players);
-    this.setState({ players });
-  }
-
   render() {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSubmitPlayer = this.handleSubmitPlayer.bind(this);
-    this.handleBlur = this.handleBlur.bind(this);
 
     return (
       <main className="gameboard">
@@ -77,7 +82,6 @@ class App extends Component {
                 name="playerName"
                 placeholder="Player Name"
                 onChange={this.handleChange}
-                onBlur={this.handleBlur}
                 value={this.state.playerName}
               />
             <button className="btn">Add Player</button>
@@ -91,7 +95,7 @@ class App extends Component {
               <option value="">
                 Select Winner
               </option>
-              {this.state.players.map(player => <option>{player}</option>)}
+              {this.state.players.map(player => <option key={player} value={player}>{player}</option>)}
             </select>
           </div>
 
@@ -101,7 +105,7 @@ class App extends Component {
               <option value="">
                 Select Loser
               </option>
-              {this.state.players.map(player => <option>{player}</option>)}
+              {this.state.players.map(player => <option key={player} value={player}>{player}</option>)}
             </select>
           </div>
           <div className="submit__wrapper">
@@ -109,9 +113,14 @@ class App extends Component {
           </div>
         </form>
 
-        <Leaderboard>
+        <div className="leaderboard__wrapper">
           <h2 className="title">LeaderBoard</h2>
-        </Leaderboard>
+          <div className="leaderboard">
+            <ol>
+              {this.state.winners.map(player => <li key={player.name}>{player.name} {player.games}</li>)}
+            </ol>
+          </div>
+        </div>
       </main>
     );
   }
