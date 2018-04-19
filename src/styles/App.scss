@@ -20,7 +20,6 @@
 }
 .addplayer__wrapper, .submit__wrapper {
   align-items: center;
-  // background-color: $addplayerbg;
   border-radius: 0px;
   color: white;
   display: grid;
@@ -65,7 +64,6 @@
   text-align: center;
   color: white;
   padding: 3vh;
-  cursor: pointer;
   display: block;
   margin: 1vw;
   width: 40vw;
@@ -74,6 +72,10 @@
   &:hover {
     cursor: pointer;
     background-color: rgba(26, 177, 45, 1);
+  }
+  &:disabled {
+    cursor: default;
+    background-color: gray;
   }
 }
 .tile {
@@ -137,9 +139,6 @@
   background-color: $loserbg;
   grid-column: 2/2;
   margin-left: 5px;
-}
-.submit__wrapper {
-
 }
 .leaderboard__wrapper {
   height: 100vh;

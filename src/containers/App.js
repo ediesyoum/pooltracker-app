@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import '../styles/css/index.css';
 import firebase from '../utils/firebase';
+import LeaderBoard from '../containers/LeaderBoard';
 import { groupBy, map, sortBy, reverse } from 'lodash';
 
 class App extends Component {
@@ -42,7 +43,18 @@ class App extends Component {
       loser: ''
     });
   }
-  handleSubmit(e) {
+  gameCanBeSubmitted() {
+    const { winner, loser } = this.state;
+    return (
+      winner.length > 0 &&
+      loser.length > 0
+    );
+  }
+  handleSubmitGame(e) {
+    if (!this.gameCanBeSubmitted()) {
+      e.preventDefault();
+      return;
+    }
     const gamesRef = firebase.database().ref('games');
     const game = {
       winner: this.state.winner,
@@ -51,21 +63,34 @@ class App extends Component {
     gamesRef.push(game);
     this.handleClearForm(e);
   }
+  playerCanBeSubmitted() {
+    const { playerName } = this.state;
+    return (
+      playerName.length > 0
+    );
+  }
   handleSubmitPlayer(e) {
+    if (!this.playerCanBeSubmitted()) {
+      e.preventDefault();
+      return;
+    }
     const playersRef = firebase.database().ref('players');
     const { players, playerName } = this.state
     const player = {
       player: playerName
     }
     playersRef.push(player);
-    players.push(playerName); //local state player array
+    players.push(playerName);
     this.handleClearForm(e);
-    this.setState({ players }); //maintain array
+    this.setState({ players });
   }
+
   render() {
     this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleSubmitGame = this.handleSubmitGame.bind(this);
     this.handleSubmitPlayer = this.handleSubmitPlayer.bind(this);
+    const playerBtnIsEnabled = this.playerCanBeSubmitted();
+    const gameBtnIsEnabled = this.gameCanBeSubmitted();
 
     return (
       <main className="gameboard">
@@ -84,11 +109,11 @@ class App extends Component {
                 onChange={this.handleChange}
                 value={this.state.playerName}
               />
-            <button className="btn">Add Player</button>
+            <button disabled={!playerBtnIsEnabled} className="btn">Add Player</button>
           </div>
         </form>
 
-        <form className="form-custom" onSubmit={this.handleSubmit}>
+        <form className="form-custom" onSubmit={this.handleSubmitGame}>
           <div className="tile winner">
             <select className="dropdown" name="winner"
               onChange={this.handleChange}>
@@ -109,18 +134,13 @@ class App extends Component {
             </select>
           </div>
           <div className="submit__wrapper">
-            <button className="btn">Add Game</button>
+            <button disabled={!gameBtnIsEnabled} className="btn">Add Game</button>
           </div>
         </form>
 
-        <div className="leaderboard__wrapper">
-          <h2 className="title">LeaderBoard</h2>
-          <div className="leaderboard">
-            <ol>
-              {this.state.winners.map(player => <li key={player.name}>{player.name} {player.games}</li>)}
-            </ol>
-          </div>
-        </div>
+        <LeaderBoard>
+          {this.state.winners.map(player => <li key={player.name}>{player.name} {player.games}</li>)}
+        </LeaderBoard>
       </main>
     );
   }
