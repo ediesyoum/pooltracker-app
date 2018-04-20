@@ -1,7 +1,7 @@
 
 .gameboard {
   display: grid;
-  grid-template-columns: repeat(1, 79.6%);
+  grid-template-columns: repeat(1, 82%);
   justify-content: center;
   position: relative;
 }
@@ -26,6 +26,7 @@
   font-size: 1.2em;
   grid-column: 1 / span 2;
   width: 81.5vw;
+  background-color: $gameboardbg;
   justify-content: center;
   margin-bottom: 10px;
   margin-top: 10px;
@@ -77,6 +78,10 @@
     cursor: default;
     background-color: gray;
   }
+}
+.form__wrapper {
+  display: relative;
+  background-image: -webkit-linear-gradient(0deg, #00956d 50%, #983232 50%);
 }
 .tile {
   align-items: center;
@@ -132,18 +137,15 @@
 }
 
 .winner {
-  background-color: $winnerbg;
   grid-column: 1/2;
 }
 .loser {
-  background-color: $loserbg;
   grid-column: 2/2;
   margin-left: 5px;
 }
 .leaderboard__wrapper {
   height: 100vh;
   margin-top: 15vh;
-  width: 100vw;
 }
 .leaderboard {
   align-items: center;

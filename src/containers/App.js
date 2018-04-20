@@ -14,7 +14,7 @@ class App extends Component {
       this.setState({ players });
     });
 
-    gamesRef.once('value').then((snapshot) => {
+    gamesRef.on("value", (snapshot) => {
       const gamesGroupedByWinner = groupBy(snapshot.val(), 'winner');
       const players = map(gamesGroupedByWinner, (games, winner) => {
           return { name: winner, games: games.length }
@@ -75,7 +75,7 @@ class App extends Component {
       return;
     }
     const playersRef = firebase.database().ref('players');
-    const { players, playerName } = this.state
+    const { players, playerName } = this.state;
     const player = {
       player: playerName
     }
@@ -98,49 +98,57 @@ class App extends Component {
           <h1>Pool Game Tracker</h1>
         </header>
 
-        <form className="form-custom" onSubmit={this.handleSubmitPlayer}>
-          <div className="addplayer__wrapper">
-            <h2 className="title">Add Player</h2>
-              <input
-                type="text"
-                className="player-name__input"
-                name="playerName"
-                placeholder="Player Name"
-                onChange={this.handleChange}
-                value={this.state.playerName}
-              />
-            <button disabled={!playerBtnIsEnabled} className="btn">Add Player</button>
-          </div>
-        </form>
+        <div className="form__wrapper">
+          <form className="form-custom" onSubmit={this.handleSubmitPlayer}>
+            <div className="addplayer__wrapper">
+              <h2 className="title">Add Player</h2>
+                <input
+                  type="text"
+                  className="player-name__input"
+                  name="playerName"
+                  placeholder="Player Name"
+                  onChange={this.handleChange}
+                  value={this.state.playerName}
+                />
+              <button disabled={!playerBtnIsEnabled} className="btn">
+                Add Player
+              </button>
+            </div>
+          </form>
 
-        <form className="form-custom" onSubmit={this.handleSubmitGame}>
-          <div className="tile winner">
-            <select className="dropdown" name="winner"
-              onChange={this.handleChange}>
-              <option value="">
-                Select Winner
-              </option>
-              {this.state.players.map(player => <option key={player} value={player}>{player}</option>)}
-            </select>
-          </div>
+          <form className="form-custom" onSubmit={this.handleSubmitGame}>
+            <div className="winner tile">
+              <select className="dropdown" name="winner"
+                onChange={this.handleChange}>
+                <option value="">
+                  Select Winner
+                </option>
+                {this.state.players.map(player =>
+                  <option key={player} value={player}>{player}</option>
+                )}
+              </select>
+            </div>
 
-          <div className="tile loser">
-            <select className="dropdown" name="loser"
-              onChange={this.handleChange}>
-              <option value="">
-                Select Loser
-              </option>
-              {this.state.players.map(player => <option key={player} value={player}>{player}</option>)}
-            </select>
-          </div>
-          <div className="submit__wrapper">
-            <button disabled={!gameBtnIsEnabled} className="btn">Add Game</button>
-          </div>
-        </form>
+            <div className="loser tile">
+              <select className="dropdown" name="loser"
+                onChange={this.handleChange}>
+                <option value="">
+                  Select Loser
+                </option>
+                {this.state.players.map(player =>
+                  <option key={player} value={player}>{player}</option>
+                )}
+              </select>
+            </div>
+            <div className="submit__wrapper">
+              <button disabled={!gameBtnIsEnabled} className="btn">
+                Add Game
+              </button>
+            </div>
+          </form>
+        </div>
 
-        <LeaderBoard>
-          {this.state.winners.map(player => <li key={player.name}>{player.name} {player.games}</li>)}
-        </LeaderBoard>
+        <LeaderBoard winners={this.state.winners}/>
       </main>
     );
   }
