@@ -7,21 +7,23 @@ class Leaderboard extends Component {
   render() {
     return (
       <div className="leaderboard__wrapper">
-        <div className="leaderboard">
-          <ReactTable
-            data={this.props.winners}
-            columns={[
-              {
-                Header: "Player Name",
-                accessor: "name"
-              },
-              {
-                Header: "Total Wins",
-                accessor: "games"
-              }
-            ]}
-          />
-        </div>
+        <h3 className="leaderboard__title">Leaderboard</h3>
+        <ReactTable
+          data={this.props.winners}
+          className={"leaderboard"}
+          showPagination={false}
+          defaultPageSize={5}
+          columns={[
+            {
+              Header: "Name",
+              accessor: "name"
+            },
+            {
+              Header: "Wins",
+              accessor: "games"
+            }
+          ]}
+        />
       </div>
     )
   }

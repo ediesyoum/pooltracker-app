@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import '../styles/css/index.css';
+import 'react-table/react-table.css';
 import firebase from '../utils/firebase';
+import TiUserAdd from 'react-icons/lib/ti/user-add';
 import LeaderBoard from '../containers/LeaderBoard';
 import { groupBy, map, sortBy, reverse } from 'lodash';
 
@@ -95,58 +97,60 @@ class App extends Component {
     return (
       <main className="gameboard">
         <header className="gameboard__header">
-          <h1>Pool Game Tracker</h1>
+          <h1 className="gameboard__title">Pool Game Tracker</h1>
         </header>
 
-        <div className="form__wrapper">
-          <form className="form-custom" onSubmit={this.handleSubmitPlayer}>
-            <div className="addplayer__wrapper">
-              <h2 className="title">Add Player</h2>
+        <form className="form-custom" onSubmit={this.handleSubmitPlayer}>
+          <div className="addplayer__wrapper">
+            <h3 className="title">Add Player</h3>
+              <div className="input__wrapper">
                 <input
                   type="text"
                   className="player-name__input"
                   name="playerName"
-                  placeholder="Player Name"
+                  placeholder="Type player name here..."
                   onChange={this.handleChange}
                   value={this.state.playerName}
                 />
               <button disabled={!playerBtnIsEnabled} className="btn">
-                Add Player
+                <TiUserAdd/>
               </button>
             </div>
-          </form>
+          </div>
+        </form>
 
-          <form className="form-custom" onSubmit={this.handleSubmitGame}>
-            <div className="winner tile">
-              <select className="dropdown" name="winner"
-                onChange={this.handleChange}>
-                <option value="">
-                  Select Winner
-                </option>
-                {this.state.players.map(player =>
-                  <option key={player} value={player}>{player}</option>
-                )}
-              </select>
-            </div>
+        <form className="form-custom" onSubmit={this.handleSubmitGame}>
+          <div className="winner tile">
+            <h3 className="title">winning team</h3>
+            <select className="select select-custom" name="winner"
+              onChange={this.handleChange}>
+              <option value="">
+                Select Winner
+              </option>
+              {this.state.players.map(player =>
+                <option key={player} value={player}>{player}</option>
+              )}
+            </select>
+          </div>
 
-            <div className="loser tile">
-              <select className="dropdown" name="loser"
-                onChange={this.handleChange}>
-                <option value="">
-                  Select Loser
-                </option>
-                {this.state.players.map(player =>
-                  <option key={player} value={player}>{player}</option>
-                )}
-              </select>
-            </div>
-            <div className="submit__wrapper">
-              <button disabled={!gameBtnIsEnabled} className="btn">
-                Add Game
-              </button>
-            </div>
-          </form>
-        </div>
+          <div className="loser tile">
+            <h3 className="title">losing team</h3>
+            <select className="select select-custom" name="loser"
+              onChange={this.handleChange}>
+              <option value="">
+                Select Loser
+              </option>
+              {this.state.players.map(player =>
+                <option key={player} value={player}>{player}</option>
+              )}
+            </select>
+          </div>
+          <div className="submit__wrapper">
+            <button disabled={!gameBtnIsEnabled} className="btn">
+              Add Game
+            </button>
+          </div>
+        </form>
 
         <LeaderBoard winners={this.state.winners}/>
       </main>
