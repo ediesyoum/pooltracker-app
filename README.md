@@ -1,4 +1,4 @@
-## Pool App Tracker
+## Pool Tracker App
 
 ### Project Instructions:
 
