@@ -8,7 +8,6 @@
   position: relative;
 }
 .gameboard__header {
-  align-items: center;
   color: white;
   display: grid;
   border-radius: 4px;
@@ -22,6 +21,12 @@
   padding-left: 1vw;
   position: relative;
   z-index: 2;
+  @media screen and (max-width: 434px) {
+    padding-left: 5vw;
+    width: 62vw;
+    min-width: 62vw;
+    position: relative;
+  }
 }
 .madeby-eden {
   position: relative;
@@ -55,7 +60,7 @@
 }
 .gameboard__title {
   text-shadow: $deepshadow;
-  @media screen and (max-width: 375px) {
+  @media screen and (max-width: 434px) {
     font-size: 1.87em;
   }
 }
@@ -67,14 +72,20 @@
   color: white;
   position: relative;
   text-align: right;
-  @media screen and (min-width: 375px) and (max-width: 620px) {
-    left: 10%;
+  @media (max-width: 460px) {
+    left: 0%;
   }
-  @media screen and (min-width: 620px) and (max-width: 880px) {
-    left: 23%;
+  @media screen and (min-width: 461px) and (max-width: 620px) {
+    left: 12vw;
   }
-  @media screen and (min-width: 985px) and (max-width: 1400px) {
-    left: 16%;
+  @media screen and (min-width: 621px) and (max-width: 1075px) {
+    left: 18%;
+  }
+  @media screen and (min-width: 1075px) and (max-width: 1400px) {
+    left: 20%;
+  }
+  @media screen and (min-width: 1401px) {
+    left: 25%;
   }
 }
 .input__wrapper {
