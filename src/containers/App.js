@@ -98,6 +98,8 @@ class App extends Component {
       <main className="gameboard">
         <header className="gameboard__header">
           <h1 className="gameboard__title">Pool Game Tracker</h1>
+          <h4 className="madeby-eden">by <a href="http://www.edencod.es" target="_blank" 
+          rel="noopener noreferrer" title="Portfolio">Eden Syoum</a></h4>
         </header>
 
         <form className="form-custom" onSubmit={this.handleSubmitPlayer}>

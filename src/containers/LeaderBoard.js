@@ -12,7 +12,6 @@ class Leaderboard extends Component {
           data={this.props.winners}
           className={"leaderboard"}
           showPagination={false}
-          defaultPageSize={5}
           columns={[
             {
               Header: "Name",

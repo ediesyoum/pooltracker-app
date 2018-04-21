@@ -14,14 +14,18 @@
   border-radius: 4px;
   box-shadow: $deepshadow;
   background-color: $gameboardbg;
-  margin-top: 10vh;
+  margin-top: 8vh;
   font-size: 1em;
   grid-column: 1;
-  height: 6vh;
+  height: 10vh;
   padding-top: 2vh;
   padding-left: 1vw;
   position: relative;
   z-index: 2;
+}
+.madeby-eden {
+  position: relative;
+  top: -12px;
 }
 .addplayer__wrapper, .submit__wrapper {
   align-items: center;
@@ -169,7 +173,7 @@
     padding: 2.8%;
     width: 38vw;
   	border:0px;
-    border-radius: 2px;
+    border-radius: 25px;
   	border: 1px rgba(255, 255, 255, 0.65) solid;
     box-shadow: $lightshadow;
   	background-color: $forminput;
